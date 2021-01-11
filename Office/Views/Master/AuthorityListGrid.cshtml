@@ -1,0 +1,185 @@
+﻿
+
+@model IEnumerable<office.Models.ProjectAuthorityOwnerList>
+
+<table class="table table-bordered" id="tblAuthorityList">
+    <thead>
+        <tr>
+            <th>Company</th>
+            <th>
+                Surve No + Hissa +Gat
+            </th>
+            <th>
+                Owners
+            </th>
+            <th>
+                Is Total Area
+            </th>
+            <th>
+                Owner Area
+            </th>
+            <th colspan="2">
+                Doc Area
+            </th>
+            <th>Remark</th>
+        </tr>
+    </thead>
+    <tbody>
+            @{ decimal Counts =0; }
+            @foreach (var item2 in Model)
+            {
+        <tr>
+            <td>
+                @item2.CompanyName
+                <input type="hidden" value="@item2.SignatoryId"  id="hdnSignatoryId"/>
+            </td>
+            <td>
+                @{ Counts = Counts + item2.ActualArea;}
+                @item2.SurvayNo , @item2.CTSHissaNo
+            </td>
+            <td>
+                @item2.OwnerName
+            </td>
+            <td>
+                @if (item2.isTotalArea == true)
+                {
+                    <input type="checkbox" class="chkbox"  inputArea="@item2.InputArea" RemainingArea="@item2.RemainingArea" id="chkbox_@item2.SurvayDetailId" checked="checked" value="@item2.isTotalArea" />
+                }
+                else
+                { <input type="checkbox" class="chkbox"  inputArea="@item2.InputArea" RemainingArea="@item2.RemainingArea" value="@item2.isTotalArea"   />
+                }
+            </td>
+            <td>
+                @item2.ActualArea <span class="small"> @item2.UnitName</span>
+            </td>
+            <td>
+                <input type="text" placeholder="total Area" value="@item2.InputArea" inputArea="@item2.InputArea" class="form-control docarea" RemainingArea="@item2.RemainingArea">
+               <span style="padding-left:10px;">Rem.. @item2.RemainingArea</span>
+            </td>
+            <td> @item2.UnitName </td>
+            <td>
+                <input type="text" value="@item2.Remark" placeholder="Remark" class="form-control remark">
+            </td>
+            <td style="display:none;"> @item2.SurvayDetailId</td>
+            <td style="display:none;"> @item2.OwnerID</td>
+            <td style="display:none;"> @item2.AreaUnitID</td>
+        </tr>
+        }
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                Total Area -   @Model.Sum(m => m.ActualArea)
+            </td>
+            <td> <span class="small"> Modified Total area -</span> @Counts</td>
+            <td></td>
+            <td> <button class="btn btn-primary" type="button" id=" btnSaveChart">Save</button></td>
+
+        </tr>
+        </tbody>
+</table>
+<script>
+    $(document).ready(function () {
+        $("#Setting").removeClass("collapse");
+        $("#Master").addClass("collapse");
+    });
+
+    
+    $(".docarea").change(function () {
+        
+        var RemainingArea = $(this).attr("RemainingArea");
+        var inputArea = $(this).attr("inputArea");
+        var a = $(this).val();
+        var ab = (parseFloat(RemainingArea) + parseFloat(inputArea))
+        if (parseFloat(a) > parseFloat(ab)) {
+            // requiredfield
+            $(this).addClass('requiredfield');
+            alert("Value should be less than " + ab)
+        }
+        else {
+            $(this).removeClass('requiredfield');
+        }
+    });
+    function saveAuthorityChart() {
+        
+            var idArrAuthoritytble = [];
+            $('#tblAuthorityList tbody tr').each(function (k, v) {
+                var trElement = $(this);
+                var tdVals = trElement.find('td .docarea').val()+ "~" +
+                    trElement.find('td .remark').val() + "~" +
+                    trElement.find('td:eq(3)').text().trim() + "~" +
+                    trElement.find('td:eq(4)').text().trim() + "~" +
+                    trElement.find('td:eq(5)').text().trim() + "~" +
+                    trElement.find('td:eq(7)').text().trim() + "~" +
+                    trElement.find('td:eq(8)').text().trim() + "~" +
+                    trElement.find('td:eq(9)').text().trim() + "~" +
+                    trElement.find('td .chkbox').prop('checked')  
+                
+
+                    idArrAuthoritytble.push(tdVals);
+            });
+       
+            var SaveAuthoritytble = [];
+            for (var i = 0; i <idArrAuthoritytble.length-1; i++) {
+                var arrElement = idArrAuthoritytble[i].split("~");
+                item = {}
+                 
+                item["SurvayDetailId"] = arrElement[5] ;
+                item["DeveloperID"] = $("#ARightID").val() ;
+                item["OwnerID"] = arrElement[6];
+                item["OwnerArea"] = 0;
+                item["OwnerAreaUnitID"] = 0;
+                item["DocArea"] = arrElement[0];
+                item["DocAreaUnitID"] = arrElement[7];
+                item["Remark"] = arrElement[1];
+                item["isTotalArea"] = arrElement[8];
+                SaveAuthoritytble.push(item);
+         }
+         
+          
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '/Master/SaveAuthorityTable',
+                data:
+                {
+                    ProjectID: $('#ProjectID').val(),  
+                 
+                    ProjectAuthorityTable: SaveAuthoritytble
+
+                },
+                success: function (da) {
+                    alert("Saved succesfully");
+                     
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    
+                }
+            });
+
+        }
+        $('#btnSaveChart').on('click', function () {
+
+            saveAuthorityChart();
+
+    });
+    $('.chkbox').on('click', function () {
+        
+        var val = this.checked;
+        if (val == true) {
+            var RemainingArea = $(this).attr("RemainingArea");
+            var inputArea = $(this).attr("inputArea");
+            var ab = (parseFloat(RemainingArea) + parseFloat(inputArea))
+            this.parentElement.parentElement.cells[4].querySelector("input").value = ab;
+        }
+        else {
+ 
+            var inputArea = $(this).attr("inputArea");
+            //var ab = (parseFloat(RemainingArea) + parseFloat(inputArea))
+            this.parentElement.parentElement.cells[4].querySelector("input").value = inputArea;
+        }
+       
+    });
+</script>

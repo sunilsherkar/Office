@@ -1,0 +1,152 @@
+﻿@model office.Models.ProjectsData
+@using PagedList;
+@using PagedList.Mvc;
+@using GridMvc.Html
+
+@{
+    ViewBag.Title = "Project";
+    Layout = null;
+} 
+<script src="~/js/jquery-2.1.1.js"></script>
+ 
+@Html.HiddenFor(a => a.DTTemplateID, new { @id = "DTTemplateID" })
+@Html.HiddenFor(a => a.TemplateID, new { @id = "TemplateID1" })
+@Html.HiddenFor(a => a.ProjectID, new { @id = "ProjectID" })
+@Html.HiddenFor(a => a.Name, new { @id = "ProjectName" })
+
+@Html.HiddenFor(a => a.ShortName, new { @id = "ShortName" })
+@Html.HiddenFor(a => a.Goan, new { @id = "Goan" })
+@Html.HiddenFor(a => a.Goan, new { @id = "Goan" })
+@Html.HiddenFor(a => a.Road, new { @id = "Road" })
+@Html.HiddenFor(a => a.Taluka, new { @id = "Taluka" })
+@Html.HiddenFor(a => a.District, new { @id = "District" })
+@Html.HiddenFor(a => a.Duration, new { @id = "Duration" })
+
+<div class="row" id="TemplateData">
+    @Html.HiddenFor(a => a.TemplateID, new { @id = "TemplateID" })
+   
+    <div class="ibox-content">
+
+        <div class="row">
+            <input id="DataTemplateName" type="text" placeholder="DataTemplate Name" value="@Model.DataTemplateName" class="form-control">
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h5 class="help-block m-b-none">Project : @Model.Name <small> @Model.ShortName</small></h5>
+                <hr style="margin-top: 11px; margin-bottom: 10px;" />
+            </div>
+        </div> 
+    </div> 
+        <div >
+            <div class="ibox-title" style="display:table-row;">
+                <label> Developers</label>
+
+            </div>
+            <div class="Row">
+                <table class="table" id="developerlist" style="margin-bottom: 0px!important">
+
+                    <tbody>
+                        @if (Model.DeveloperDatalist != null)
+                        {
+                            foreach (var item in Model.DeveloperDatalist)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="" style="margin-left: 0!important">
+                                             
+                                            @if (item.isDeveloperApplied == true)
+                                            {
+                                                <input type="radio" class="i-checks chkdev" name="sDev" divName="checkboxDiv_@item.DeveloperId" checked="checked" id="@item.DeveloperId" >
+                                            }
+                                            else
+                                            {
+                                                <input type="radio" class="i-checks chkdev" name="sDev" id="@item.DeveloperId">
+                                                <div id="checkboxDiv_@item.DeveloperId" class="checkboxDiv">
+                                                </div>
+                                            }
+
+ 
+                                        </div>
+                                    </td>
+                                    <td class="hidden multideveloper" id="@item.OwnershipId">@item.DeveloperId</td>
+                                    <td>@item.Name</td>
+
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        
+        
+    </div>
+ 
+<script>
+            function getSearchParams(k) {
+                var p = {};
+                location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (s, k, v) { p[k] = v })
+                return k ? p[k] : p;
+            }
+
+    $(document).ready(function () {
+        
+        var TemplateID = $('#TemplateID').val();
+        $('input[name=sDev]').click(function () {
+            $("#CompanyParent").show();
+            var DtTemplateID = $('#DTTemplateID').val();
+            if ($(this).is(':checked')) {
+                $.ajax({
+                    url: "@Url.Action("TemplateCompanyTeam", "Master")",
+                    data:
+                    {
+                        CompanyId: $(this).attr("id"),
+                        DtTemplateID: DtTemplateID,
+                        ProjectID: ProjectID
+
+                    },
+                    dataType: "text",
+                    success: function (data) {
+                        $('#CompanyTeam').html(data);
+
+                    },
+                    error: function (error) {
+                        eval(error);
+                    }
+                }); 
+            }
+        });
+
+        
+        
+        $('#btnGenerateDocument').on("click", function (e) {
+
+            var TemplateID = $('#hdnTemplateID').val();
+            var DtTemplateID = $('#DTTemplateID').val();
+
+            $.ajax({
+                url: "@Url.Action("ReplacePlaceholderByDataTemplate", "Template")",
+                data:
+                {
+                    TemplateID: TemplateID,
+                    DtTemplateID: DtTemplateID,
+                },
+                dataType: "text",
+
+                success: function (data) {
+
+                    $('#TemplateData').html(data);
+                },
+                error: function (error) {
+
+                }
+            });
+        });
+
+         
+    });
+</script>
+
+

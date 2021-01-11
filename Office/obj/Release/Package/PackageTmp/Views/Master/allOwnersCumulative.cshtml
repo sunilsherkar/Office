@@ -1,0 +1,353 @@
+﻿
+@model  office.Models.allOwnersCumulative
+@{ 
+  Layout = null;
+}
+ 
+<style>
+    .details-control {
+        background: url(../resources/details_open.png) no-repeat center center;
+        cursor: pointer;
+    }
+
+    .displays {
+        display: block !important;
+    }
+
+    .hides {
+        display: none;
+    }
+
+    .show-grid {
+        margin: 0 !important;
+    }
+
+    .show-grid1 {
+        margin: 0 !important;
+    }
+
+        .show-grid1 [class^="col-"] {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border: 1px solid #ddd;
+            background-color: white !important;
+        }
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <input type="hidden" id="hdnSignatoryID" value="" />
+        <div class="ibox float-e-margins">
+            <div class="ibox-content1">
+                <div class="row show-grid">
+
+                    <div class="col-md-2"> Developer </div>
+                    <div class="col-md-2"> Authority </div>
+                    <div class="col-md-2">Area</div>
+                    
+                    <div class="col-md-2"> Agree. No</div>
+                    <div class="col-md-2">Date</div>
+                    <div class="col-md-2">Registrar</div>
+                </div>
+                <div class="divOwner">
+                    @foreach (var item2 in Model.ProjectOwnerCumBaseList)
+                    {
+                        <div class="row show-grid sgrid1">
+                            <div class="col-md-2 s1">
+                                <i  class="fa fa-edit EditSignatory" id="EditSignatory-@item2.SignatoryID" SignatoryID="@item2.SignatoryID" CompanyID="@item2.CompanyID" aria-hidden="true" style="margin-left: 8px;"  ></i>
+                                <i class="fa fa-minus deleteSignatory" id="DeleteSignatory-@item2.SignatoryID" SignatoryID="@item2.SignatoryID" aria-hidden="true" style="margin-left: 8px;display:none; "></i>
+                                @item2.CompanyName
+                            </div>
+
+                            <div class="col-md-2 s5" style="overflow-x:scroll;overflow-y:hidden;">
+                                @item2.SignatoryName &nbsp;
+                            </div>
+                            <div class="col-md-2 s6">
+                                @item2.AreaUnderDevelopment &nbsp;
+                            </div>
+                            @*<div class="col-md-1 s7">
+                                SqrMtr
+                            </div>*@
+                            <div class="col-md-2 s2">
+                                @*<input type="text" placeholder="Doc No" value="@item2.DocumentID" class="form-control" />*@
+                                @item2.DocumentID
+                            </div>
+                            <div class="col-md-2 s3">
+                                @*<input type="text" placeholder="Date" value="@item2.AgreementDate" class="form-control" />*@
+                                @item2.AgreementDate
+                            </div>
+                            <div class="col-md-2 s4">
+                                @item2.SubRegistarOffice
+                                @*<input type="text" placeholder="Registrar" value="@item2.SubRegistarOffice" class="form-control" />*@
+                            </div>
+                        </div>
+                        <div class="row show-grid1" id="row-@item2.SignatoryID" style="display:none;">
+
+                            <div>
+                                <div id="OwnersData2-@item2.SignatoryID"></div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="row show-grid">
+                    <div class="col-md-2">&nbsp;  </div>
+                    <div class="col-md-2">&nbsp; </div>
+                    <div class="col-md-2">@Model.ProjectOwnerCumChildList.Sum(m => m.Area)</div>
+                    <div class="col-md-2">&nbsp;</div>
+                    <div class="col-md-2">&nbsp;</div>
+                    <div class="col-md-2">&nbsp; </div>
+
+                    @*<div class="col-md-1">SqrMtr</div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('.sgrid1').each(function (k, v) {
+
+            var h = "40";
+            var tdheight1 = $(this).find(".s1").height();
+            var tdheight2 = $(this).find(".s2").height();
+            var tdheight3 = $(this).find(".s3").height();
+            var tdheight4 = $(this).find(".s4").height();
+            var tdheight5 = $(this).find(".s5").height();
+            var tdheight6 = $(this).find(".s6").height();
+            var tdheight7 = $(this).find(".s7").height();
+            if (tdheight1 > h) {
+                h = tdheight1;
+            }
+            if (tdheight2 > h) {
+                h = tdheight2;
+            }
+            if (tdheight3 > h) {
+                h = tdheight3;
+            }
+            if (tdheight4 > h) {
+                h = tdheight4;
+            }
+            if (tdheight5 > h) {
+                h = tdheight5;
+            }
+            if (tdheight6 > h) {
+                h = tdheight6;
+            }
+            if (tdheight7 > h) {
+                h = tdheight7;
+            }
+
+            $(".s1").height(h);
+            $(".s2").height(h);
+            $(".s3").height(h);
+            $(".s4").height(h);
+            $(".s5").height(h);
+            $(".s6").height(h);
+            $(".s7").height(h);
+        });
+    });
+    $('.ViewSurveyDetail').on("click", function (e) {
+        var SurvayDetailId = $(this).attr("SurvayDetailId");
+        $.ajax({
+            type: 'GET',
+            dataType: "text",
+            url: '/Master/GetOwnersPropertyCardSubList',
+            data:
+            {
+                ProjectID: $('#ProjectID').val(),
+                SurvayDetailId: SurvayDetailId
+            },
+            success: function (data) {
+                $('#row-' + SurvayDetailId).addClass("displays");
+                $('#OwnersData2-' + SurvayDetailId).html(data);
+                $('#hideSurveyDetail-' + SurvayDetailId).show();
+                $('#ViewSurveyDetail-' + SurvayDetailId).hide();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+            }
+        });
+    });
+    $('.hideSurveyDetail').on("click", function (e) {
+        var SurvayDetailId = $(this).attr("SurvayDetailId");
+        $('#hideSurveyDetail-' + SurvayDetailId).hide();
+        $('#ViewSurveyDetail-' + SurvayDetailId).show();
+        $('#row-' + SurvayDetailId).removeClass("displays");
+    });
+    $('.EditOwner').on("click", function (e) {
+        debugger;
+        $.ajax({
+            type: 'Post',
+            dataType: "text",
+            url: '/Master/GetProjectOwnerSurvey',
+            data:
+            {
+                ProjectID: $('#ProjectID').val(),
+                SurvayTypeID: $('#SurveyNoTypeID').val(),
+                OwnerSurveyNo: $('#OwnerSurveyNo').val(),
+                OwnerID: $(this).attr("OwnerID")
+
+            },
+            success: function (data) {
+                debugger;
+                $('#myModalUndevided').show();
+                $('#OwnerPopup1').html(data);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                debugger;
+            }
+        });
+    });
+     
+        $('.EditSignatory').on("click", function (e) {
+            debugger;
+            $(".iboxAuthority").show();
+            var SignatoryID = $(this).attr("SignatoryID");
+            var CompanyID = $(this).attr("CompanyID");
+            $("#ARightID").val(CompanyID);
+            
+          
+           
+            getAuthoritiesList(1);
+            getAuthoritiesList(2); getAuthoritiesList(3);
+            getAuthoritiesList(4); getAuthoritiesList(5);
+            getownerauthorityEdit(SignatoryID, CompanyID);
+    });
+     
+    function getownerauthorityEdit(SignatoryId, CompanyID) {
+        
+        $.ajax({
+            type: 'GET',
+            dataType: "text",
+            url: '/Master/GetProjectInfoAuthority',
+            data:
+            {
+                ProjectID: $('#ProjectID').val(),
+                CompanyID: CompanyID,
+                SignatoryID: SignatoryId
+            },
+            success: function (data) {
+                
+                $('#AuthorityDetails').html(data);
+                var v = $("#selectedVal1").val();
+                var selectedValues = new Array();
+                var selected = v.split(',');
+                var len = selected.length;
+                for (i = 0; i < len; i++) {
+                    selectedValues[i] = selected[i].trim().toString();
+                }
+                if (len > 0) {
+                    $('#RowAddSignature1').show();
+                }
+                $("#SignatoryPersonId1").val(selectedValues);//.trigger('change.select2');;//.trigger("change");
+
+                //2
+                debugger;
+                var v2 = $("#selectedVal2").val();
+                if (v2 == "" || v2 == "0") {
+                    $('#RowAddSignature2').hide();
+                }
+
+                else {
+                    var selectedValues2 = new Array();
+                    var selected2 = v2.split(',');
+                    var len2 = selected2.length;
+                    for (i2 = 0; i2 < len2; i2++) {
+                        selectedValues2[i2] = selected2[i2].trim().toString();
+                    }
+                    $("#SignatoryPersonId2").val(selectedValues2);//.trigger('change.select2');;//.trigger("change");
+                    if (len2 > 0) {
+                        $('#RowAddSignature2').show();
+                    }
+                    else { $('#RowAddSignature2').hide(); }
+                }
+                //3
+                var v3 = $("#selectedVal3").val();
+                if (v3 == "" || v3 == "0") {
+                    $('#RowAddSignature3').hide();
+                }
+
+                else {
+                    var selectedValues3 = new Array();
+                    var selected3 = v3.split(',');
+                    var len3 = selected3.length;
+                    for (i3 = 0; i3 < len3; i3++) {
+                        selectedValues3[i3] = selected3[i3].trim().toString();
+                    }
+                    $("#SignatoryPersonId3").val(selectedValues3);//.trigger('change.select2');;//.trigger("change");
+                    if (len3 > 0) {
+                        $('#RowAddSignature3').show();
+                    }
+                }
+                //4
+
+                var v4 = $("#selectedVal4").val();
+                if (v4 == "" || v4 == "0") {
+                    $('#RowAddSignature4').hide();
+                }
+
+                else {
+                    var selectedValues4 = new Array();
+                    var selected4 = v4.split(',');
+                    var len4 = selected4.length;
+                    for (i4 = 0; i4 < len4; i4++) {
+                        selectedValues4[i4] = selected4[i4].trim().toString();
+                    }
+                    $("#SignatoryPersonId4").val(selectedValues4);//.trigger('change.select2');;//.trigger("change");
+                    if (len4 > 0) {
+                        $('#RowAddSignature4').show();
+                    }
+                    else {
+                        $('#RowAddSignature4').hide();
+                    }
+                }
+
+                // $('#SignatoryPersonId1').trigger('change')
+                $("#SubRegistrar").val($('#hdnSubRegistarOffice').val());
+                $("#either1").val($('#hdneither1').val());
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+            }
+        });
+    }
+            function getAuthoritiesList(val1) {
+ 
+            $.ajax({
+                url: "@Url.Action("GetInternalTeamUnderCompanyForSignatory", "Master")",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    CompanyID: $('#ARightID').val(),
+                    val: val1
+                }),
+                dataType: "text",
+                type: "POST",
+                async: true,
+                success: function (data) {
+                    if (val1 == 1) {
+                        $('#SignatoryPersonId1').html(data);
+                        //$('#RowAddSignature1').show();
+                    }
+                    else if (val1 == 2) {
+                        $('#SignatoryPersonId2').html(data);
+                        //$('#RowAddSignature2').show();
+                    }
+                    else if (val1 == 3) {
+                        $('#SignatoryPersonId3').html(data);
+                       // $('#RowAddSignature3').show();
+                    }
+                    else if (val1 == 4) {
+                        $('#SignatoryPersonId4').html(data);
+                        //$('#RowAddSignature4').show();
+                    }
+                    else if (val1 == 5) {
+                        $('#SignatoryPersonId5').html(data);
+                        //$('#RowAddSignature5').show();
+                    }
+                },
+                error: function (data) {
+
+                },
+                complete: function () {
+                }
+            });
+            return true;
+        }
+</script>

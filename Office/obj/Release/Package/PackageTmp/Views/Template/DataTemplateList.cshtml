@@ -1,0 +1,111 @@
+﻿
+@model  IEnumerable<office.Models.DataTemplateList>
+@{
+    Layout = null;
+}
+<div class="table-responsive">
+    <table class="table scroll-x">
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    <input type="checkbox" name="newsletter" class="i-checks chkTemplate" id="@item.DTTemplateID" value="@item.DTTemplateID">
+
+                </td> 
+                <td>
+                    <a class="DTTemplateID btn-sm" name="DTTemplateID" id="@item.DTTemplateID"   value="@item.DataTemplateName" >
+                        @item.DataTemplateName
+                    </a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+   
+</div>
+<script src="~/js/jquery-2.1.1.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.DTTemplateID').click(function () {
+            $("#CompanyParent").show();
+            $("#divimp").hide();
+            $("#DataFields").show();
+            $("#CompareTemplateDiv").hide();
+            $("#EmptyField").hide();
+            
+            var TemplateID = $('#TemplateID').val();
+            var DTTemplateID = this.id;
+            $.ajax({
+                url: "@Url.Action("GetProjectData", "Template")",
+                data:
+                {
+                    TemplateID: TemplateID,
+                    DTTemplateID: DTTemplateID,
+                    ProjectID: $('#ProjectID').val()
+                },
+                dataType: "text",
+                success: function (data) {
+                    $('#ProjectGrid').html(data);
+                    $('#hdnTemplateID').val(TemplateID);
+                    getinnerData(DTTemplateID);
+                },
+                error: function (error) {
+                    eval(error);
+                }
+            });
+
+        });
+        function getinnerData(DTTemplateID) {
+
+            $.ajax({
+                url: "@Url.Action("GetProjectInnerInfo", "Master")",
+                data:
+                {
+
+                    ProjectID: ProjectID,
+                    DTTemplateID: DTTemplateID
+
+                },
+                dataType: "text",
+
+                success: function (data) {
+                  
+                    $('#ProjectInnerInfo').html(data);
+                   // var CompanyId = $('#CompanyId').val();
+                    getDeveloperTeam();
+                },
+                error: function (error) {
+                    eval(error);
+                }
+            });
+        }
+        function getDeveloperTeam() {
+          
+            $(".chkdev:radio:checked").each(function () {
+                devid = $(this).attr("id");
+            });
+            var DtTemplateID = $('#DTTemplateID').val();
+             
+                $.ajax({
+                    url: "@Url.Action("TemplateCompanyTeam", "Master")",
+                    data:
+                    {
+                        CompanyId: devid,
+                        DtTemplateID: DtTemplateID,
+                        ProjectID: $('#ProjectID').val()
+
+                    },
+                    dataType: "text",
+                    success: function (data) {
+                        $('#CompanyTeam').html(data);
+
+                    },
+                    error: function (error) {
+                        eval(error);
+                    }
+                });
+            
+        }
+    });
+</script>

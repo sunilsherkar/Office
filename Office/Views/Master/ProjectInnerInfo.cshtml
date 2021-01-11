@@ -1,0 +1,663 @@
+﻿@model office.Models.DataTemplateProjectDetails
+@{
+    Layout = null;
+}
+ 
+<div class="row">
+    <div class="col-lg-12">
+        <h5 class="help-block m-b-none">Internal Team </h5>
+        <hr style="margin-top: 11px; margin-bottom: 10px;" />
+    </div>
+    <div>
+        <div class="DivInternalTeam">
+            @foreach (var item4 in Model.SaveProjectInternalTeam)
+            {
+                <div>
+                    <div class="col-md-2">
+                        @if (item4.isselected == 1)
+                        {
+                            <input type="radio" class="i-checks chkInternalTeam" v="@item4.internalTeamid" divName="checkboxDiv_@item4.internalTeamid" name="RiTeam" checked="checked">
+                        }
+                        else
+                        {
+                            <input type="radio" class="i-checks chkInternalTeam" v="@item4.internalTeamid" divName="checkboxDiv_@item4.internalTeamid" name="RiTeam" >
+                        }
+
+                    </div>
+                    <div class="col-md-10">
+                        <span class=" showInternalTeam" parentcompanyid="@item4.parentcompanyid" internalpersonid="@item4.internalpersonid" designationid1="@item4.designationid1" subdesignationid1="@item4.subdesignationid1" subpartdesignationid1="@item4.subpartdesignationid1" internalTeamid="@item4.internalTeamid" style="overflow-wrap:break-word;">
+                            @item4.InternalPersonName
+                            @item4.DesignationidText
+                            @item4.SubDesignationText
+                            @item4.SubPartDesignationText
+                        </span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-lg-12">
+        <h5 class="help-block m-b-none">External Team </h5>
+        <hr style="margin-top: 11px; margin-bottom: 10px;" />
+    </div>
+    <div>
+        <div class="DivExternalTeam">
+
+            @foreach (var item4 in Model.SaveProjectExternalTeam)
+            {
+            <div class="col-md-2">
+                @if (item4.isselected == 1)
+                {
+                    <input type="radio" class="i-checks chkExternalTeam" v="@item4.ExternalTeamid" divName="checkboxDiv_@item4.ExternalTeamid" checked="checked" name="RETeam"/>
+                }
+                else
+                {
+                    <input type="radio" class="i-checks chkExternalTeam" v="@item4.ExternalTeamid" divName="checkboxDiv_@item4.ExternalTeamid" name="RETeam"/>
+
+                    @*<div id="checkboxDiv_@item4.ExternalTeamid" class="checkboxDiv"> </div>*@
+
+
+                }
+
+            </div>
+                <div class="col-md-10">
+
+                    <span class=" showExternalTeam" Externalpersonid="@item4.Externalpersonid" designationid2="@item4.designationid1" subdesignationid2="@item4.subdesignationid1" subpartdesignationid2="@item4.subpartdesignationid1" ExternalTeamid="@item4.ExternalTeamid" parentcompanyid="@item4.parentcompanyid" style="overflow-wrap:break-word;">
+                        @item4.InternalPersonName
+                        @item4.DesignationidText
+                        @item4.SubDesignationText
+                        @item4.SubPartDesignationText
+                    </span>
+                </div>
+
+            }
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <hr style="margin-top: 11px; margin-bottom: 10px;" />
+        <h5 class="help-block m-b-none">Office Team </h5>
+        <hr style="margin-top: 11px; margin-bottom: 10px;" />
+    </div>
+    <div>
+        <div class="DivOfficeSideTeam">
+            @foreach (var item4 in Model.SaveProjectOfficeSideTeam)
+            { 
+
+            <div class="col-md-2">
+                @if (item4.isselected == 1)
+                {
+                    <input type="radio" class="i-checks chkOfficeTeam" v="@item4.Teamid"   name="RofcTeam" checked="checked" />
+                }
+                else
+                {
+                    <input type="radio" class="i-checks chkOfficeTeam" v="@item4.Teamid"  name="RofcTeam"/>
+                }
+
+            </div>
+                <div class="col-md-10">
+                    <span class="showOfficeTeam" personid="@item4.personid" designationid3="@item4.designationid1" subdesignationid3="@item4.subdesignationid1" subpartdesignationid3="@item4.subpartdesignationid1" Officeteamid="@item4.Teamid" style="overflow-wrap:break-word;">
+                        @item4.InternalPersonName
+                        @item4.DesignationidText
+                        @item4.SubDesignationText
+                        @item4.SubPartDesignationText
+                    </span>
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <h5 class="help-block m-b-none">Pre Proposal details </h5>
+        <hr style="margin-top: 11px; margin-bottom: 10px;" />
+    </div>
+    <div>
+        <div class="DivExternalTeam">
+
+            @foreach (var item4 in Model.BindList2)
+            {
+                <div class="row col-md-12">
+                    <div class="col-md-12">
+
+                        <span style="margin-left:5px;overflow-wrap:break-word;" class=" showExternalTeam" Externalpersonid="@item4.Value">
+
+                            @if (item4.isselected == 1)
+                            {
+                                <input type="radio" class="i-checks chkPreProposal" v="@item4.Value" name="PreProposal" checked="checked" />
+                            }
+                            else
+                            {
+                                <input type="radio" class="i-checks chkPreProposal" v="@item4.Value" name="PreProposal" />
+                            }
+
+                            &nbsp;&nbsp;&nbsp; @item4.Text
+
+                        </span>
+                        <hr style="margin-top: 3px; margin-bottom: 3px;" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+<div class="row"> 
+    <div class="col-lg-12">
+        <h5 class="help-block m-b-none"> Proposal details </h5>
+        <hr style="margin-top: 11px; margin-bottom: 10px;" />
+    </div>
+    <div>
+        <div class="DivExternalTeam">
+
+            @foreach (var item4 in Model.BindList)
+            {
+                <div class="row col-md-12">
+                    <div class="col-md-12">
+
+                        <span style="margin-left:5px;overflow-wrap:break-word;" class=" showExternalTeam" Externalpersonid="@item4.Value">
+
+                            @if (item4.isselected == 1)
+                            {
+                                <input type="radio" class="i-checks chkProposal" v="@item4.Value" name="RSurveyNo" checked="checked" />
+                            }
+                            else
+                            {
+                                <input type="radio" class="i-checks chkProposal" v="@item4.Value" name="RSurveyNo" />
+                            }
+                             
+                            &nbsp;&nbsp;&nbsp; @item4.Text
+
+                        </span>
+                        <hr style="margin-top: 3px; margin-bottom: 3px;" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <h5 class="help-block m-b-none"> Sanction details </h5>
+        <hr style="margin-top: 11px; margin-bottom: 10px;" />
+    </div>
+    <div>
+        <div class="DivExternalTeam">
+
+            @foreach (var item4 in Model.BindList3)
+            {
+                <div class="row col-md-12">
+                    <div class="col-md-12">
+
+                        <span style="margin-left:5px;overflow-wrap:break-word;" class=" showExternalTeam" Externalpersonid="@item4.Value">
+
+                            @if (item4.isselected == 1)
+                            {
+                                <input type="radio" class="i-checks chkSanction" v="@item4.Value" name="RSanction" checked="checked" />
+                            }
+                            else
+                            {
+                                <input type="radio" class="i-checks chkSanction" v="@item4.Value" name="RSanction" />
+                            }
+
+                            &nbsp;&nbsp;&nbsp; @item4.Text
+
+                        </span>
+                        <hr style="margin-top: 3px; margin-bottom: 3px;" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-lg-12">
+        <h5 class="help-block m-b-none">Owners  </h5>
+        <hr style="margin-top: 11px; margin-bottom: 10px;" />
+    </div>
+    <div>
+        <div class="DivExternalTeam">
+
+            @foreach (var item4 in Model.ProjectOwnerDetailList)
+            {
+                <div class="row col-md-12">
+                    <div class="col-md-12">
+
+                        <span style="margin-left:5px;overflow-wrap:break-word;" class=" showExternalTeam" Externalpersonid="@item4.OwnerID" >
+                            <input type="radio" class="i-checks  "  divName="checkboxDiv_@item4.OwnerID" name="PreProposal"/>
+                            &nbsp;&nbsp;&nbsp; @item4.OwnerName
+
+                        </span>
+                        <hr style="margin-top: 3px; margin-bottom: 3px;" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-lg-12">
+        <h5 class="help-block m-b-none">Signature  </h5>
+        <hr style="margin-top: 11px; margin-bottom: 10px;" />
+    </div>
+    <div>
+        <div class="DivExternalTeam">
+
+            @foreach (var item4 in Model.AuthoritySignatory)
+            {
+            <div class="row col-md-12">
+                <div class="col-md-12">
+
+                    <span style="margin-left:5px;" class=" showExternalTeam" Externalpersonid="@item4.OwnerID" style="overflow-wrap:break-word;">
+                        <input type="checkbox" class="i-checks chkOwner " divName="checkboxDiv_@item4.OwnerID" />
+                        &nbsp;&nbsp;&nbsp; @item4.selectedVal1
+
+                    </span>
+                    <hr style="margin-top: 3px; margin-bottom: 3px;" />
+                </div>
+                <div class="col-md-12">
+
+                    <span style="margin-left:5px;" class=" showExternalTeam" Externalpersonid="@item4.OwnerID" style="overflow-wrap:break-word;">
+                        <input type="checkbox" class="i-checks chkOwner " divName="checkboxDiv_@item4.OwnerID" />
+                        &nbsp;&nbsp;&nbsp; @item4.selectedVal2
+
+                    </span>
+                    <hr style="margin-top: 3px; margin-bottom: 3px;" />
+                </div>
+                <div class="col-md-12">
+
+                    <span style="margin-left:5px;" class=" showExternalTeam" Externalpersonid="@item4.OwnerID" style="overflow-wrap:break-word;">
+                        <input type="checkbox" class="i-checks chkOwner " divName="checkboxDiv_@item4.OwnerID" />
+                        &nbsp;&nbsp;&nbsp; @item4.selectedVal3
+
+                    </span>
+                    <hr style="margin-top: 3px; margin-bottom: 3px;" />
+                </div>
+                <div class="col-md-12">
+
+                    <span style="margin-left:5px;" class=" showExternalTeam" Externalpersonid="@item4.OwnerID" style="overflow-wrap:break-word;">
+                        <input type="checkbox" class="i-checks chkOwner " divName="checkboxDiv_@item4.OwnerID" />
+                        &nbsp;&nbsp;&nbsp; @item4.selectedVal4
+
+                    </span>
+                    <hr style="margin-top: 3px; margin-bottom: 3px;" />
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+
+</div>
+ 
+<script>
+            $(document).ready(function () {
+                $('.EditOfficeTeam').on("click", function (e) {
+                    $(".iboxOfficeSide").show();
+                    $(".iboxCompanynfo").hide();
+                    $(".iboxInternal").hide();
+                    $(".iboxexternal").hide();
+                  
+
+                    $("select#OfficePersonId").prop('selectedIndex', 0);
+                    $("select#DesignationId3").prop('selectedIndex', 0);
+                    $("select#SubDesignationID3").prop('selectedIndex', 0);
+                    $("select#SubPartDesignationID3").prop('selectedIndex', 0);
+                    var officeteamid = $(this).attr("officeteamid");
+
+                    var OfficePersonId = $(this).closest(".showOfficeTeam").attr("personid");
+                    var DesignationId3 = $(this).closest(".showOfficeTeam").attr("designationid3");
+                    var SubDesignationID3 = $(this).closest(".showOfficeTeam").attr("subdesignationid3");
+                    var SubPartDesignationID3 = $(this).closest(".showOfficeTeam").attr("subpartdesignationid3");
+
+                    $("#OfficeTeamid").val(officeteamid);
+
+                    //GetInternalTeamUnderProject();
+                    $("#OfficePersonId").val(OfficePersonId);
+                    $("#DesignationId3").val(DesignationId3);
+                    GetSubDesignation3();
+                    $("#SubDesignationID3").val(SubDesignationID3);
+                    GetSubPartDesignation3();
+                    $("#SubPartDesignationID3").val(SubPartDesignationID3);
+                });
+
+            $('.EditinternalTeam').on("click", function (e) {
+                $(".iboxOffice").hide();
+                $(".iboxCompanynfo").hide();
+                $(".iboxInternal").show();
+                $(".iboxexternal").hide();
+              
+                $("select#ParentCompanyID").prop('selectedIndex', 0);
+                $("select#InternalPersonId").prop('selectedIndex', 0);
+                $("select#DesignationId1").prop('selectedIndex', 0);
+                $("select#SubDesignationID1").prop('selectedIndex', 0);
+                $("select#SubPartDesignationID1").prop('selectedIndex', 0);
+                var internalteamid = $(this).attr("internalteamid");
+                var ParentCompanyID = $(this).closest(".showInternalTeam").attr("parentcompanyid");
+                var internalpersonid = $(this).closest(".showInternalTeam").attr("internalpersonid");
+                var designationid1 = $(this).closest(".showInternalTeam").attr("designationid1");
+                var subdesignationid1 = $(this).closest(".showInternalTeam").attr("subdesignationid1");
+                var subpartdesignationid1 = $(this).closest(".showInternalTeam").attr("subpartdesignationid1");
+
+                $("#internalTeamid").val(internalteamid);
+                $("#ParentCompanyID").val(ParentCompanyID);
+                GetInternalTeamUnderProject();
+                $("#InternalPersonId").val(internalpersonid);
+                $("#DesignationId1").val(designationid1);
+                GetSubDesignation();
+                $("#SubDesignationID1").val(subdesignationid1);
+                GetSubPartDesignation();
+                $("#SubPartDesignationID1").val(subpartdesignationid1);
+            });
+
+            $('.EditExternalTeam').on("click", function (e) {
+                $(".iboxOffice").hide();
+                $(".iboxCompanynfo").hide();
+                $(".iboxInternal").hide();
+                $(".iboxexternal").show();
+
+                $("select#ExternalPersonId").prop('selectedIndex', 0);
+                $("select#DesignationId2").prop('selectedIndex', 0);
+                $("select#SubDesignationID2").prop('selectedIndex', 0);
+                $("select#SubPartDesignationID2").prop('selectedIndex', 0);
+                $("select#ExtTeamParentCompanyID").prop('selectedIndex', 0);;
+
+                var ExternalTeamid = $(this).attr("externalteamid");
+                var ParentCompanyID = $(this).closest(".showExternalTeam").attr("parentcompanyid");
+                var externalpersonid = $(this).closest(".showExternalTeam").attr("externalpersonid");
+                var designationid2 = $(this).closest(".showExternalTeam").attr("designationid2");
+                var subdesignationid2 = $(this).closest(".showExternalTeam").attr("subdesignationid2");
+                var subpartdesignationid2 = $(this).closest(".showExternalTeam").attr("subpartdesignationid2");
+              
+                $("#ExternalTeamid").val(ExternalTeamid);
+                $("#ExtTeamParentCompanyID").val(ParentCompanyID);
+                GetExternalTeamUnderProject();
+                $("#ExternalPersonId").val(externalpersonid);
+                $("#DesignationId2").val(designationid2);
+                GetSubDesignation2();
+                $("#SubDesignationID2").val(subdesignationid2);
+                GetSubPartDesignation2();
+                $("#SubPartDesignationID2").val(subpartdesignationid2);
+                return true;
+            });
+            });
+             function GetSubDesignation3() {
+          $.ajax({
+            url: "@Url.Action("BindTeamSubDesignation", "Master")",
+            contentType: "application/json",
+                data: JSON.stringify({
+                    DesignationID: $('#DesignationId3').val(),
+            }),
+            dataType: "text",
+              type: "POST",
+              async: false,
+                success: function (data) {
+                $('#SubDesignationID3').html(data);
+
+            },
+            error: function (data) {
+
+            },
+            complete: function () {
+
+            }
+
+            });
+            return true;
+        }
+        function GetSubDesignation() {
+          $.ajax({
+            url: "@Url.Action("BindTeamSubDesignation", "Master")",
+            contentType: "application/json",
+                data: JSON.stringify({
+                    DesignationID: $('#DesignationId1').val(),
+            }),
+            dataType: "text",
+              type: "POST",
+              async: false,
+                success: function (data) {
+                $('#SubDesignationID1').html(data);
+
+            },
+            error: function (data) {
+
+            },
+            complete: function () {
+
+            }
+
+            });
+            return true;
+        }
+        function GetSubDesignation2() {
+            $.ajax({
+                url: "@Url.Action("BindTeamSubDesignation", "Master")",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    DesignationID: $('#DesignationId2').val(),
+                    Val: 2
+                }),
+                dataType: "text",
+                type: "POST",
+                async: false,
+                success: function (data) {
+                    $('#SubDesignationID2').html(data);
+                },
+                error: function (data) {
+
+
+                },
+                complete: function () {
+
+                }
+            });
+            }
+            function GetSubPartDesignation3() {
+
+            $.ajax({
+            url: "@Url.Action("BindTeamSubPartDesignation", "Master")",
+            contentType: "application/json",
+                data: JSON.stringify({
+                    SubDesignationId: $('#SubDesignationID3').val(),
+            }),
+            dataType: "text",
+            type: "POST",
+            async: false,
+                success: function (data) {
+                $('#SubPartDesignationID3').html(data);
+            },
+            error: function (data) {
+
+            },
+            complete: function () {
+
+            }
+
+            });
+            return true;
+        }
+        function GetSubPartDesignation() {
+
+            $.ajax({
+            url: "@Url.Action("BindTeamSubPartDesignation", "Master")",
+            contentType: "application/json",
+                data: JSON.stringify({
+                    SubDesignationId: $('#SubDesignationID1').val(),
+            }),
+            dataType: "text",
+            type: "POST",
+            async: false,
+                success: function (data) {
+                $('#SubPartDesignationID1').html(data);
+            },
+            error: function (data) {
+
+            },
+            complete: function () {
+
+            }
+
+            });
+            return true;
+        }
+
+          function GetSubPartDesignation2() {
+
+           $.ajax({
+                url: "@Url.Action("BindTeamSubPartDesignation", "Master")",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    SubDesignationId: $('#SubDesignationID2').val(),
+                    Val: 2
+                }),
+                dataType: "text",
+                type: "POST",
+                async: false,
+                success: function (data) {
+                    $('#SubPartDesignationID2').html(data);
+
+                },
+                error: function (data) {
+
+
+                },
+                complete: function () {
+
+                }
+
+            });
+
+        }
+        function GetSupportTeamSubCategory() {
+            $.ajax({
+                url: "@Url.Action("CategoryWiseSubCategory", "Master")",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    CategoryID: $('#CategoryID2').val(),
+                    val:2
+                }),
+               // dataType: "text",
+                type: "POST",
+                async: false,
+                success: function (data) {
+
+                    $('#SubCategoryID2').html(data);
+                },
+                error: function (data) {
+                  
+                    console.log(data);
+                },
+                complete: function () {
+                }
+            });
+            return true;
+        }
+    function GetSupportTeamSubDesignation() {
+        $.ajax({
+            url: "@Url.Action("BindTeamSubDesignation", "Master")",
+            contentType: "application/json",
+            data: JSON.stringify({
+                DesignationID: $('#DesignationId2').val(),
+                Val: 2
+            }),
+            dataType: "text",
+            type: "POST",
+            async: false,
+            success: function (data) {
+                $('#SubDesignationID2').html(data);
+            },
+            error: function (data) {
+
+
+            },
+            complete: function () {
+
+            }
+
+        });
+        return true;
+    }
+
+    function GetSupportTeamSubPartDesignation() {
+
+        $.ajax({
+            url: "@Url.Action("BindTeamSubPartDesignation", "Master")",
+            contentType: "application/json",
+            data: JSON.stringify({
+                SubDesignationId: $('#SubDesignationID2').val(),
+                Val: 2
+            }),
+            dataType: "text",
+            type: "POST",
+            async: false,
+            success: function (data) {
+                $('#SubPartDesignationID2').html(data);
+
+            },
+            error: function (data) {
+
+
+            },
+            complete: function () {
+
+            }
+
+        });
+        return true;
+    }
+         function GetInternalTeamUnderProject() {
+        $.ajax({
+                url: "@Url.Action("GetInternalTeamUnderCompany", "Master")",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    CompanyID: $('#ParentCompanyID').val(),
+                }),
+                dataType: "text",
+                type: "POST",
+                async: false,
+                success: function (data) {
+                    $('#InternalPersonId').html(data);
+                },
+                error: function (data) {
+
+                },
+                complete: function () {
+                }
+            });
+            return true;
+        }
+         function GetExternalTeamUnderProject() {
+             $.ajax({
+                 url: "@Url.Action("GetExternalTeamUnderCompany", "Master")",
+                 contentType: "application/json",
+                 data: JSON.stringify({
+                     CompanyID: $('#ExtTeamParentCompanyID').val(),
+                 }),
+                 dataType: "text",
+                 type: "POST",
+                 async: false,
+                 success: function (data) {
+                     $('#ExternalPersonId').html(data);
+                 },
+                 error: function (data) {
+
+                 },
+                 complete: function () {
+                 }
+             });
+        }
+</script>
+

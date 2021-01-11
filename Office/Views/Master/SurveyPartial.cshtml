@@ -1,0 +1,131 @@
+﻿@model  office.Models.nSaveSurvayDetails
+
+@{
+    Layout = null;
+}
+
+<div>
+    @{
+        string SurvayNo="", HissaNo="", PlotNO="";
+        string SurvayNo2 = "", HissaNo2 = "", PlotNO2 = "";
+        string SurvayNo3 = "", HissaNo3 = "", PlotNO3 = "";
+        if (Model.SurvayTypeID==1)
+        {
+            SurvayNo = Model.SurvayNo;
+            HissaNo = Model.HissaNo;
+            PlotNO = Model.PlotNO;
+
+        }
+        else if (Model.SurvayTypeID == 2)
+        {
+            SurvayNo2 = Model.SurvayNo;
+            HissaNo2 = Model.HissaNo;
+            PlotNO2 = Model.PlotNO;
+
+        }
+        if (Model.SurvayTypeID == 3)
+        {
+            SurvayNo3 = Model.SurvayNo;
+            HissaNo3 = Model.HissaNo;
+            PlotNO3 = Model.PlotNO;
+
+        }
+        {
+        }
+    }
+    <div class="form-group disabledDiv" id="SurveyNo">
+        <div class="col-lg-3">
+            <input id="Ow_SurveyNoValue" type="text" placeholder="Survey No." value="@SurvayNo" class="form-control">
+        </div>
+        <div class="col-lg-3">
+            <input id="Ow_HissaNo" type="text" placeholder="Hissa No" value="@HissaNo" class="form-control">
+        </div>
+        <div class="col-lg-2">
+            <input id="Ow_PlotNo" type="text" placeholder="Plot No." value="@PlotNO" class="form-control">
+        </div>
+        <div class="col-lg-2">
+            <input id="Ow_OldNo" type="text" placeholder="Old Survey.No." class="form-control">
+        </div>
+        <div class="col-lg-2">
+            <span class="IsultiOwner">
+                <input type="radio" name="isPrimarySurvey" value="1">
+
+                <label for="checkbox5">
+                    primary
+                </label>
+            </span>
+        </div>
+    </div>
+    <div class="form-group disabledDiv " id="GatNo">
+        <div class="col-lg-3">
+            <input id="G_SurveyNoValue" type="text" value="@SurvayNo2" placeholder="Gat No." class="form-control">
+        </div>
+        <div class="col-lg-3">
+            <input id="G_HissaNo" type="text" value="@HissaNo2" placeholder="Hissa No" class="form-control">
+        </div>
+        <div class="col-lg-2">
+            <input id="G_PlotNo" type="text" value="@PlotNO2" placeholder="Plot No." class="form-control">
+        </div>
+        <div class="col-lg-2">
+            <input id="G_OldNo" type="text" placeholder="Old Gat.No." class="form-control">
+        </div>
+        <div class="col-lg-2">
+            <span class="IsultiOwner">
+                <input type="radio" name="isPrimarySurvey" value="2">
+
+                <label for="checkbox5">
+                    primary
+                </label>
+            </span>
+        </div>
+    </div>
+    <div class="form-group disabledDiv " id="CTSNo">
+        <div class="col-lg-3">
+            <input id="CTS_SurveyNoValue"  value="@SurvayNo3" type="text" placeholder="CTS No." class="form-control">
+        </div>
+        <div class="col-lg-3">
+            <input id="CTS_HissaNo" type="text" value="@HissaNo3" placeholder="Hissa No" class="form-control">
+        </div>
+        <div class="col-lg-2">
+            <input id="CTS_PlotNo" type="text" value="@PlotNO3" placeholder="Plot No." class="form-control">
+        </div>
+        <div class="col-lg-2">
+            <input id="CTS_OldNo" type="text" placeholder="Old CTS.No." class="form-control">
+        </div>
+        <div class="col-lg-2">
+            <span class="IsultiOwner">
+                <input type="radio" name="isPrimarySurvey" value="3">
+                <label for="checkbox5">
+                    primary
+                </label>
+            </span>
+        </div>
+    </div>
+    @*<div class="form-group disabledDiv" id="FinalPlot">
+        <div class="col-lg-3">
+            <input id="FP_SurveyNoValue" value="@Model.FPlotNo" type="text" placeholder="Final Plot No." class="form-control">
+        </div>
+        <div class="col-lg-2">
+            <span class="IsultiOwner">
+                <input type="radio" name="isPrimarySurvey" value="5">
+                <label for="checkbox5">
+                    primary
+                </label>
+            </span>
+        </div> <div class="col-lg-1"></div>
+        <div class="col-lg-2">
+            <button id="AddOwnerDoc" class="btn btn-primary pull-left" type="button">
+                Save
+            </button>
+        </div>
+        <div class="col-lg-1">
+            <button id="AddOwnerDocNext" class="btn btn-primary pull-left" type="button">
+                Save & Next
+            </button>
+        </div>
+        <div class="col-lg-3">
+
+        </div>
+    </div>*@
+</div>
+ 

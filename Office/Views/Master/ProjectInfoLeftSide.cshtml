@@ -1,0 +1,633 @@
+﻿
+
+@model office.Models.ProjectDetailsLeftSide
+
+@{
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h5 class="help-block m-b-none">Project : @Model.nProjectDetail.ProjectName <small> @Model.nProjectDetail.ProjectShortName</small></h5>
+
+        <hr style="margin-top: 11px; margin-bottom: 10px;" />
+    </div>
+</div>
+
+<div class="row" id="developerList">
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h5 class="help-block m-b-none">Internal Team </h5>
+            <hr style="margin-top: 11px; margin-bottom: 10px;" />
+        </div>
+        <div>
+            <div class="DivInternalTeam">
+                @foreach (var item4 in Model.SaveProjectInternalTeam)
+                {
+                    <div>
+                        <span class="col-lg-12 showInternalTeam" parentcompanyid="@item4.parentcompanyid" internalpersonid="@item4.internalpersonid" designationid1="@item4.designationid1" subdesignationid1="@item4.subdesignationid1" subpartdesignationid1="@item4.subpartdesignationid1" internalTeamid="@item4.internalTeamid" style="overflow-wrap:break-word;">
+
+                            @item4.InternalPersonName
+                            @item4.DesignationidText
+                            @item4.SubDesignationText
+                            @item4.SubPartDesignationText
+                            <i class="fa fa-pencil-square-o EditinternalTeam" internalTeamid="@item4.internalTeamid" id="EditInternalTeam-@item4.internalTeamid" aria-hidden="true" style="margin-left: 8px; margin-top: 9px;"></i>
+                        </span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-12">
+            <h5 class="help-block m-b-none">External Team </h5>
+            <hr style="margin-top: 11px; margin-bottom: 10px;" />
+        </div>
+        <div class="row col-md-12">
+            <div class="DivExternalTeam">
+
+                @foreach (var item4 in Model.SaveProjectExternalTeam)
+                {
+                    <div>
+                        <span class="col-lg-12 showExternalTeam" Externalpersonid="@item4.Externalpersonid" designationid2="@item4.designationid1" subdesignationid2="@item4.subdesignationid1" subpartdesignationid2="@item4.subpartdesignationid1" ExternalTeamid="@item4.ExternalTeamid" parentcompanyid="@item4.parentcompanyid" style="overflow-wrap:break-word;">
+                            @item4.InternalPersonName
+                            @item4.DesignationidText
+                            @item4.SubDesignationText
+                            @item4.SubPartDesignationText
+                            <i class="fa fa-pencil-square-o EditExternalTeam" ExternalTeamid="@item4.ExternalTeamid" id="EditExternalTeam-@item4.ExternalTeamid" aria-hidden="true" style="margin-left: 8px; margin-top: 9px;"></i>
+                        </span>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <hr style="margin-top: 11px; margin-bottom: 10px;" />
+            <h5 class="help-block m-b-none">Office Team </h5>
+            <hr style="margin-top: 11px; margin-bottom: 10px;" />
+        </div>
+        <div>
+            <div class="DivOfficeSideTeam">
+                @foreach (var item4 in Model.SaveProjectOfficeSideTeam)
+                {
+                    <div>
+                        <span class="col-lg-12 showOfficeTeam" personid="@item4.personid" designationid3="@item4.designationid1" subdesignationid3="@item4.subdesignationid1" subpartdesignationid3="@item4.subpartdesignationid1" Officeteamid="@item4.Teamid" style="overflow-wrap:break-word;">
+                            @item4.InternalPersonName
+                            @item4.DesignationidText
+                            @item4.SubDesignationText
+                            @item4.SubPartDesignationText
+                            <i class="fa fa-pencil-square-o EditOfficeTeam" Officeteamid="@item4.Teamid" id="EditOfficeTeam-@item4.Teamid" aria-hidden="true" style="margin-left: 8px; margin-top: 9px;"></i>
+                        </span>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <div class="col-lg-12">
+                <h5 class="help-block m-b-none" style="margin-bottom: 11px;">Pre Proposed details</h5>
+                <hr class="nosurvay" style="margin-top: 0px; margin-bottom: 5px;" />
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            @if (Model.nSaveSurvayDetails.Count()>0)
+            {
+            <table class="table" id="survaylist" style="display:block;">
+                <thead>
+                    <tr>
+                        <th>Type/No</th>
+
+                         
+                        <th>Hissa </th>
+                        <th>Plot/F Plot </th>
+                        
+                        <th>Area</th>
+                        <th>Unit</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                @{ decimal area = 0;
+                }
+                <tbody>
+
+                    @foreach (var item4 in Model.nSaveSurvayDetails)
+                    {
+                    <tr>
+                        <td>@item4.SurveyName/@item4.SurvayNo</td>
+                        <td class="hidden">@item4.SurvayTypeID</td>
+
+                        <td>@item4.HissaNo</td>
+                        <td>@item4.PlotNO / @item4.FPlotNo </td>
+
+                        <td>@item4.Area</td>
+                        <td>@item4.UnitName</td>
+                        <td>
+                            <i class="fa fa-edit editrow editSurvay" Area="@item4.Area" UnitID="@item4.UnitID" HissaNo="@item4.HissaNo" SurvayTypeID="@item4.SurvayTypeID" SurvayNo="@item4.SurvayNo" SurvayDetailId=@item4.SurvayDetailId id="editSurvay" aria-hidden="true"></i>
+                        </td>
+                        <td class="hidden">@item4.UnitID</td>
+
+                        <td class="hidden">@item4.SurvayDetailId</td>
+                        <td style="display:none">
+                            <i class="fa fa-times deleterow pull-right" id="mydel" aria-hidden="true"></i>
+                        </td>
+
+                    </tr>
+
+                        area = area + item4.Area;
+
+                    }
+
+                </tbody>
+                <tfoot>
+                    <tr>
+
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>@area </td>
+                        <td>@Model.nSaveSurvayDetails.First().UnitName</td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+                </tfoot>
+            </table>
+                    }
+        </div>
+    </div>
+
+    @*<div class="row">
+        <div class="col-lg-12">
+            <h5 class="help-block m-b-none">Owners </h5>
+            <hr style="margin-top: 11px; margin-bottom: 10px;" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="divAddress">
+
+            </div>
+        </div>
+    </div>*@
+
+    @*<div class="row">
+        <div class="col-lg-12">
+            <hr style="margin-top: 11px; margin-bottom: 10px;" />
+            <h5 class="help-block m-b-none">Signature   </h5>
+            <hr style="margin-top: 11px; margin-bottom: 10px;" />
+        </div>
+        <div>
+            <div class="DivOfficeSideTeam">
+                @foreach (var item in Model.AuthoritySignatory)
+                {
+                    int k = 1;
+                    <div>
+                        <div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Person </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item1 in Model.AuthoritySignatoryDetail)
+                                    {
+                                        if (item.signatorId == item1.SignatoryID)
+                                        {
+
+                                            <tr>
+                                                <td>@item1.PName </td>
+                                            </tr>
+
+                                            k++;
+
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <span class="col-lg-12 showOfficeTeam" personid="@item.signatorId" designationid1="@item.AreaUnitID" subdesignationid1="@item.AreaUnderDevelopment" subpartdesignationid1="@item.DocumentID" Teamid="@item.signatorId" style="overflow-wrap:break-word;">
+                            @item.AreaUnderDevelopment
+                            @item.AreaUnitID
+                            @item.OwnerID
+                            @item.SubRegistarOffice
+                            <i class="fa fa-pencil-square-o EditinternalTeam" Teamid="@item.signatorId" id="EditInternalTeam-@item.signatorId" aria-hidden="true" style="margin-left: 8px; margin-top: 9px;"></i>
+                        </span>
+
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>*@
+    <script>
+        $(document).ready(function () {
+
+            getDeveloper();
+                $('.EditOfficeTeam').on("click", function (e) {
+                    $(".iboxOfficeSide").show();
+                    $(".iboxCompanynfo").hide();
+                    $(".iboxInternal").hide();
+                    $(".iboxexternal").hide();
+                     
+
+                    $("select#OfficePersonId").prop('selectedIndex', 0);
+                    $("select#DesignationId3").prop('selectedIndex', 0);
+                    $("select#SubDesignationID3").prop('selectedIndex', 0);
+                    $("select#SubPartDesignationID3").prop('selectedIndex', 0);
+                    var officeteamid = $(this).attr("officeteamid");
+
+                    var OfficePersonId = $(this).closest(".showOfficeTeam").attr("personid");
+                    var DesignationId3 = $(this).closest(".showOfficeTeam").attr("designationid3");
+                    var SubDesignationID3 = $(this).closest(".showOfficeTeam").attr("subdesignationid3");
+                    var SubPartDesignationID3 = $(this).closest(".showOfficeTeam").attr("subpartdesignationid3");
+
+                    $("#OfficeTeamid").val(officeteamid);
+
+                    //GetInternalTeamUnderProject();
+                    $("#OfficePersonId").val(OfficePersonId);
+                    $("#DesignationId3").val(DesignationId3);
+                    GetSubDesignation3();
+                    $("#SubDesignationID3").val(SubDesignationID3);
+                    GetSubPartDesignation3();
+                    $("#SubPartDesignationID3").val(SubPartDesignationID3);
+                });
+            
+            $('.editSurvay').on("click", function (e) {
+                $(".iboxOffice").hide();
+                $(".iboxCompanynfo").hide();
+                $(".iboxInternal").hide();
+                $(".iboxexternal").hide();
+                $(".iboxSurveyNo").show();
+                
+                var surveynotype = $(this).attr("survaytypeid");
+                var hissano = $(this).attr("hissano");
+                var survayno = $(this).attr("survayno");
+                var survaydetailid = $(this).attr("survaydetailid");
+                var Area = $(this).attr("area");
+                var unitid = $(this).attr("unitid");
+                
+                
+                $("#SurveyNoType").val(surveynotype);
+                $("#SurveyNoValue").val(survayno);
+                $("#SurveyHissaNo").val(hissano);
+                $("#SurveyArea").val(Area);
+                $("#SurveyNoUnitId").val(unitid);
+                $("#hdnSurvayDetailId").val(survaydetailid);
+                
+                
+
+             });
+            $('.EditinternalTeam').on("click", function (e) {
+                $(".iboxOffice").hide();
+                $(".iboxCompanynfo").hide();
+                $(".iboxInternal").show();
+                $(".iboxexternal").hide();
+                
+                $("select#ParentCompanyID").prop('selectedIndex', 0);
+                $("select#InternalPersonId").prop('selectedIndex', 0);
+                $("select#DesignationId1").prop('selectedIndex', 0);
+                $("select#SubDesignationID1").prop('selectedIndex', 0);
+                $("select#SubPartDesignationID1").prop('selectedIndex', 0);
+                var internalteamid = $(this).attr("internalteamid");
+                var ParentCompanyID = $(this).closest(".showInternalTeam").attr("parentcompanyid");
+                var internalpersonid = $(this).closest(".showInternalTeam").attr("internalpersonid");
+                var designationid1 = $(this).closest(".showInternalTeam").attr("designationid1");
+                var subdesignationid1 = $(this).closest(".showInternalTeam").attr("subdesignationid1");
+                var subpartdesignationid1 = $(this).closest(".showInternalTeam").attr("subpartdesignationid1");
+
+                $("#internalTeamid").val(internalteamid);
+                $("#ParentCompanyID").val(ParentCompanyID);
+                GetInternalTeamUnderProject();
+                $("#InternalPersonId").val(internalpersonid);
+                $("#DesignationId1").val(designationid1);
+                GetSubDesignation();
+                $("#SubDesignationID1").val(subdesignationid1);
+                GetSubPartDesignation();
+                $("#SubPartDesignationID1").val(subpartdesignationid1);
+            });
+
+            $('.EditExternalTeam').on("click", function (e) {
+                $(".iboxOffice").hide();
+                $(".iboxCompanynfo").hide();
+                $(".iboxInternal").hide();
+                $(".iboxexternal").show();
+
+                $("select#ExternalPersonId").prop('selectedIndex', 0);
+                $("select#DesignationId2").prop('selectedIndex', 0);
+                $("select#SubDesignationID2").prop('selectedIndex', 0);
+                $("select#SubPartDesignationID2").prop('selectedIndex', 0);
+                $("select#ExtTeamParentCompanyID").prop('selectedIndex', 0);;
+
+                var ExternalTeamid = $(this).attr("externalteamid");
+                var ParentCompanyID = $(this).closest(".showExternalTeam").attr("parentcompanyid");
+                var externalpersonid = $(this).closest(".showExternalTeam").attr("externalpersonid");
+                var designationid2 = $(this).closest(".showExternalTeam").attr("designationid2");
+                var subdesignationid2 = $(this).closest(".showExternalTeam").attr("subdesignationid2");
+                var subpartdesignationid2 = $(this).closest(".showExternalTeam").attr("subpartdesignationid2");
+              
+                $("#ExternalTeamid").val(ExternalTeamid);
+                $("#ExtTeamParentCompanyID").val(ParentCompanyID);
+                GetExternalTeamUnderProject();
+                $("#ExternalPersonId").val(externalpersonid);
+                $("#DesignationId2").val(designationid2);
+                GetSubDesignation2();
+                $("#SubDesignationID2").val(subdesignationid2);
+                GetSubPartDesignation2();
+                $("#SubPartDesignationID2").val(subpartdesignationid2);
+                return true;
+            });
+            });
+             function GetSubDesignation3() {
+          $.ajax({
+            url: "@Url.Action("BindTeamSubDesignation", "Master")",
+            contentType: "application/json",
+                data: JSON.stringify({
+                    DesignationID: $('#DesignationId3').val(),
+            }),
+            dataType: "text",
+              type: "POST",
+              async: false,
+                success: function (data) {
+                $('#SubDesignationID3').html(data);
+
+            },
+            error: function (data) {
+
+            },
+            complete: function () {
+
+            }
+
+            });
+            return true;
+        }
+        function GetSubDesignation() {
+          $.ajax({
+            url: "@Url.Action("BindTeamSubDesignation", "Master")",
+            contentType: "application/json",
+                data: JSON.stringify({
+                    DesignationID: $('#DesignationId1').val(),
+            }),
+            dataType: "text",
+              type: "POST",
+              async: false,
+                success: function (data) {
+                $('#SubDesignationID1').html(data);
+
+            },
+            error: function (data) {
+
+            },
+            complete: function () {
+
+            }
+
+            });
+            return true;
+        }
+        function GetSubDesignation2() {
+            $.ajax({
+                url: "@Url.Action("BindTeamSubDesignation", "Master")",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    DesignationID: $('#DesignationId2').val(),
+                    Val: 2
+                }),
+                dataType: "text",
+                type: "POST",
+                async: false,
+                success: function (data) {
+                    $('#SubDesignationID2').html(data);
+                },
+                error: function (data) {
+
+
+                },
+                complete: function () {
+
+                }
+            });
+            }
+            function GetSubPartDesignation3() {
+
+            $.ajax({
+            url: "@Url.Action("BindTeamSubPartDesignation", "Master")",
+            contentType: "application/json",
+                data: JSON.stringify({
+                    SubDesignationId: $('#SubDesignationID3').val(),
+            }),
+            dataType: "text",
+            type: "POST",
+            async: false,
+                success: function (data) {
+                $('#SubPartDesignationID3').html(data);
+            },
+            error: function (data) {
+
+            },
+            complete: function () {
+
+            }
+
+            });
+            return true;
+        }
+        function GetSubPartDesignation() {
+
+            $.ajax({
+            url: "@Url.Action("BindTeamSubPartDesignation", "Master")",
+            contentType: "application/json",
+                data: JSON.stringify({
+                    SubDesignationId: $('#SubDesignationID1').val(),
+            }),
+            dataType: "text",
+            type: "POST",
+            async: false,
+                success: function (data) {
+                $('#SubPartDesignationID1').html(data);
+            },
+            error: function (data) {
+
+            },
+            complete: function () {
+
+            }
+
+            });
+            return true;
+        }
+
+          function GetSubPartDesignation2() {
+
+           $.ajax({
+                url: "@Url.Action("BindTeamSubPartDesignation", "Master")",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    SubDesignationId: $('#SubDesignationID2').val(),
+                    Val: 2
+                }),
+                dataType: "text",
+                type: "POST",
+                async: false,
+                success: function (data) {
+                    $('#SubPartDesignationID2').html(data);
+
+                },
+                error: function (data) {
+
+
+                },
+                complete: function () {
+
+                }
+
+            });
+
+        }
+        function GetSupportTeamSubCategory() {
+            $.ajax({
+                url: "@Url.Action("CategoryWiseSubCategory", "Master")",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    CategoryID: $('#CategoryID2').val(),
+                    val:2
+                }),
+               // dataType: "text",
+                type: "POST",
+                async: false,
+                success: function (data) {
+
+                    $('#SubCategoryID2').html(data);
+                },
+                error: function (data) {
+                  
+                    console.log(data);
+                },
+                complete: function () {
+                }
+            });
+            return true;
+        }
+    function GetSupportTeamSubDesignation() {
+        $.ajax({
+            url: "@Url.Action("BindTeamSubDesignation", "Master")",
+            contentType: "application/json",
+            data: JSON.stringify({
+                DesignationID: $('#DesignationId2').val(),
+                Val: 2
+            }),
+            dataType: "text",
+            type: "POST",
+            async: false,
+            success: function (data) {
+                $('#SubDesignationID2').html(data);
+            },
+            error: function (data) {
+
+
+            },
+            complete: function () {
+
+            }
+
+        });
+        return true;
+    }
+
+    function GetSupportTeamSubPartDesignation() {
+
+        $.ajax({
+            url: "@Url.Action("BindTeamSubPartDesignation", "Master")",
+            contentType: "application/json",
+            data: JSON.stringify({
+                SubDesignationId: $('#SubDesignationID2').val(),
+                Val: 2
+            }),
+            dataType: "text",
+            type: "POST",
+            async: false,
+            success: function (data) {
+                $('#SubPartDesignationID2').html(data);
+
+            },
+            error: function (data) {
+
+
+            },
+            complete: function () {
+
+            }
+
+        });
+        return true;
+    }
+         function GetInternalTeamUnderProject() {
+        $.ajax({
+                url: "@Url.Action("GetInternalTeamUnderCompany", "Master")",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    CompanyID: $('#ParentCompanyID').val(),
+                }),
+                dataType: "text",
+                type: "POST",
+                async: false,
+                success: function (data) {
+                    $('#InternalPersonId').html(data);
+                },
+                error: function (data) {
+
+                },
+                complete: function () {
+                }
+            });
+            return true;
+        }
+        function getDeveloper() {
+            $.ajax({
+                type: 'GET',
+                dataType: "text",
+                url: '/Master/ProjectDeveloper',
+                data:
+                {
+                    ProjectID: $('#ProjectID').val(),
+
+                },
+                success: function (data) {
+
+                    $('#developerList').html(data);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                }
+            });
+        }
+         function GetExternalTeamUnderProject() {
+             $.ajax({
+                 url: "@Url.Action("GetExternalTeamUnderCompany", "Master")",
+                 contentType: "application/json",
+                 data: JSON.stringify({
+                     CompanyID: $('#ExtTeamParentCompanyID').val(),
+                 }),
+                 dataType: "text",
+                 type: "POST",
+                 async: false,
+                 success: function (data) {
+                     $('#ExternalPersonId').html(data);
+                 },
+                 error: function (data) {
+
+                 },
+                 complete: function () {
+                 }
+             });
+        }
+    </script>

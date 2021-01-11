@@ -1,0 +1,374 @@
+﻿
+@model  office.Models.DocTemplateList
+@{
+    ViewBag.Title = "Compose";
+    Layout = "~/Views/Shared/LayoutNoLeftBar.cshtml";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link href="~/css/style.css" rel="stylesheet" />
+
+  <style>
+      .ibox-content{padding-bottom:5px!important;}
+  </style>
+<div class="wrapper wrapper-content1">
+
+    <div class="row" id="TemplateData">
+
+        <div class="col-md-2">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="timeline-row post-even">
+                            <div class="ibox">
+                                <div class="">
+                                    <h5 class="text-success no-margin headingsize18">
+                                        Template
+                                        <button class="btn-white btn btn-xs" id="btnCompare" type="button"> Compare/Preview </button>
+                                    </h5>
+
+                                </div>
+                                <hidden id="hdnTemplateID" value="@Model.TemplateID"></hidden>
+                                <div class="" id="DataTemplateList">
+                                </div>
+                                <div class="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2" id="DataFields">
+            <div class="timeline-row post-even ">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+
+                        <div class="" id="ProjectGrid">
+                            <div class="table-responsive">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="" id="ProjectInnerInfo">
+                                <div class="table-responsive">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="pull-right">
+                    <button class="btn btn-primary" id="btnGenerateDtTemplate" type="button">Save Data Templare</button>
+                    <button class="btn btn-primary" id="btnGenerateDocument" type="button" style="display:none;">Generate Document</button>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-2" id="CompanyParent"  style="display:none;">
+            <div class="timeline-row post-even" >
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+
+                        <div class="" id="CompanyTeam">
+                            <div class="table-responsive">
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2" id="EmptyField">
+        </div>
+        <div class="col-md-8" id="CompareTemplateDiv">
+        </div>
+
+    </div>
+    </div>
+            <div class="loader"></div>
+            <input type="text" id="saveuserid" value="" class="hidden" />
+            <input type="text" id="saveusername" value="" class="hidden" />
+            <input type="text" id="saverolename" value="" class="hidden" />  
+            <hr /> 
+            <script src="~/js/jquery-2.1.1.js"></script>
+
+            <script>
+
+    $(document).ready(function () {
+        $('.close').on("click", function (e) {
+            $('#mdlGte').enerahide();
+        });
+        var urlParams = new URLSearchParams(location.search);
+        if (urlParams.has('ProjectID')) {
+            ProjectID = urlParams.get('ProjectID');
+        }
+        else {
+            ProjectID = 0;
+        }
+        if (urlParams.has('TemplateID')) {
+            TemplateID = urlParams.get('TemplateID');
+        }
+        else {
+            TemplateID = 0;
+        }
+        
+             $.ajax({
+                url: "@Url.Action("GetProjectData", "Template")",
+                data:
+                {
+                    TemplateID: TemplateID,
+                    DTTemplateID : 0,
+                    ProjectID: ProjectID
+
+                },
+                dataType: "text",
+
+                success: function (data) {
+                    $('#ProjectGrid').html(data);
+                    $('#hdnTemplateID').val(TemplateID);
+                },
+                error: function (error) {
+                    eval(error);
+                }
+        });
+
+        $.ajax({
+            url: "@Url.Action("GetDataTemplateList", "Template")",
+            data:
+            {
+                ProjectID: ProjectID
+            },
+            dataType: "text",
+
+            success: function (data) {
+
+                $('#DataTemplateList').html(data);
+            },
+            error: function (error) {
+                eval(error);
+            }
+        });
+         
+
+          $.ajax({
+                url: "@Url.Action("GetProjectInnerInfo", "Master")",
+                data:
+                {
+                    
+                    ProjectID: ProjectID
+
+                },
+                dataType: "text",
+
+                success: function (data) {
+                    $('#ProjectInnerInfo').html(data);
+                    
+                },
+                error: function (error) {
+                    eval(error);
+                }
+        });
+         
+
+    });
+            </script>
+            <script>
+               
+                $("#btnCompare").on("click", function (e) {
+                    $("#DataFields").hide();
+                    $("#CompanyParent").hide();
+                    $("#divimp").show(); 
+                     
+                    $("#CompareTemplateDiv").show();
+                    $("#EmptyField").show();
+                    var chkArray = [];
+                    var first;
+                    $(".chkTemplate:checked").each(function () {
+                        chkArray.push($(this).val());
+                        first = $(this).val();
+                    });
+                    var selected;
+                    
+                    selected = chkArray.join(',');
+                    var l = chkArray.length;
+                    if (l > 3) {
+                        alert("Do not select more than 3 template to compare ");
+                        return;
+                    }
+                    var urlParams = new URLSearchParams(location.search);
+                    if (urlParams.has('ProjectID')) {
+                        ProjectID = urlParams.get('ProjectID');
+                    }
+                    else {
+                        ProjectID = 0;
+                    }
+                    if (urlParams.has('TemplateID')) {
+                        TemplateID = urlParams.get('TemplateID');
+                    }
+                    else {
+                        TemplateID = 0;
+                    }
+
+                    $.ajax({
+                        url: "@Url.Action("CompareDataTemplates", "Template")",
+                        data:
+                        {
+                            TemplateID: TemplateID,
+                            DTTemplateIDList: selected,
+                            ProjectID: $("#ProjectID").val()
+
+                        },
+                        dataType: "text",
+
+                        success: function (data) {
+                            $('#CompareTemplateDiv').html(data);
+                             $.ajax({
+                        url: "@Url.Action("EmptyTemplateData", "Template")",
+                        data:
+                        {
+                            TemplateID: TemplateID,
+                            DtTemplateID: first,
+                            EmptyField: 1
+
+                        },
+                        dataType: "text",
+
+                        success: function (data) {
+                            $('#EmptyField').html(data);
+                            
+                        },
+                        error: function (error) {
+                            eval(error);
+                        }
+                    });
+                        },
+                        error: function (error) {
+                            eval(error);
+                        }
+                    });
+                });
+
+    $('#btnGenerateDtTemplate').on("click", function (e) {
+          
+            var TemplateID = $('#TemplateID').val();
+            var DTTemplateID = $('#DTTemplateID').val();  
+            var DataTemplateName = $('#DataTemplateName').val();
+
+            var devid = 0;
+            var InternalTeamId = 0;
+            var ExternalTeamId = 0;
+            var OfficeTeamId = 0;
+            var CInternalTeamID = 0;
+            var CExternalTeamID = 0;
+            var CAddressID = 0;
+            var CPreProposalId = 0;
+            var CProposalId = 0;
+            var CSanctionId = 0;
+            $(".chkdev:radio:checked").each(function () {
+                devid = $(this).attr("id");
+            });
+            $(".chkInternalTeam:radio:checked").each(function () {
+                InternalTeamId = $(this).attr("v");
+            });
+            $(".chkExternalTeam:radio:checked").each(function () {
+                ExternalTeamId = $(this).attr("v");
+            });
+            $(".chkOfficeTeam:radio:checked").each(function () {
+                OfficeTeamId = $(this).attr("v");
+            });
+            $(".chkCInternalTeam:radio:checked").each(function () {
+                CInternalTeamID = $(this).attr("v");
+            });
+            $(".chkCExternalTeam:radio:checked").each(function () {
+                CExternalTeamID = $(this).attr("v");
+            });
+            $(".chkCAddress:radio:checked").each(function () {
+                CAddressID = $(this).attr("v");
+            });
+
+            $(".chkPreProposal:radio:checked").each(function () {
+                CPreProposalId = $(this).attr("v");
+            });
+
+            $(".chkProposal:radio:checked").each(function () {
+                CProposalId = $(this).attr("v");
+            });
+
+            $(".chkSanction:radio:checked").each(function () {
+                CSanctionId = $(this).attr("v");
+            });
+
+            //for custom field
+
+            var idArrCustomField = [];
+            $('.CustomFieldName').each(function (k, v) {
+                //  var fid = $(this).attr("fid");
+                var fid = $(this).attr("fid") + "~" + $(this).val();
+                // var fVal = $(this).attr("fVal");
+                idArrCustomField.push(fid);
+
+            });
+            var SaveCustomField = [];
+            for (var i = 0; i < idArrCustomField.length; i++) {
+                var arrElement = idArrCustomField[i].split("~");
+                item = {}
+                item["FieldID"] = arrElement[0];
+                item["Value"] = arrElement[1];
+                SaveCustomField.push(item);
+            }
+
+            //end custom field
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '/Template/GenerateDataTemplate',
+                async: false,
+                data:
+                {
+                    DTTemplateID: DTTemplateID,
+                    ProjectID: $('#ProjectID').val(),
+                    DeveloperID: devid,
+                    InternalTeamId: InternalTeamId,
+                    ExternalTeamId: ExternalTeamId,
+                    OfficeTeamId: OfficeTeamId,
+                    CInternalTeamID: CInternalTeamID,
+                    CExternalTeamID: CExternalTeamID,
+                    CAddressID: CAddressID,
+                    CPreProposalId: CPreProposalId,
+                    CProposalId: CProposalId,
+                    CSanctionId: CSanctionId,
+                    DataTemplateName: DataTemplateName,
+                    TemplateID: TemplateID,
+                    SaveCustomField: SaveCustomField
+                },
+                success: function (data) {
+                    alert("Save succefully");
+                    $.ajax({
+                        url: "@Url.Action("GetDataTemplateList", "Template")",
+                        data:
+                        {
+                            ProjectID: ProjectID
+                        },
+                        dataType: "text",
+
+                        success: function (data) {
+
+                            $('#DataTemplateList').html(data);
+                        },
+                        error: function (error) {
+                            eval(error);
+                        }
+                    });
+
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                }
+            });
+        });
+
+            </script>

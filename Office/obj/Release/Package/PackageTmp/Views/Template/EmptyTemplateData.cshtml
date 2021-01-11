@@ -1,0 +1,54 @@
+﻿@model  IEnumerable<office.Models.EmptyTemplateData>
+ 
+@{
+    Layout = null;
+}
+<div class="wrapper">
+    <div class="gray-bg">
+        <div class="mail-box">
+            <div class="DivExternalTeam">
+
+                @foreach (var item4 in Model)
+                {
+                    <div class="row col-md-12">
+                        <div class="col-md-12">
+
+                            <span style="margin-left:5px;overflow-wrap:break-word;" class=" showExternalTeam" >
+                                 &nbsp;&nbsp;&nbsp; @item4.placeholder
+                                  <input type="text" value="@item4.value" class="form-control"/>
+                            </span>
+                            <hr style="margin-top: 3px; margin-bottom: 3px;" />
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<link href="~/css/style.css" rel="stylesheet" />
+<script src="~/js/jquery-2.1.1.js"></script>
+
+@*<script>
+            $(document).ready(function () {
+            $('#Print').on("click", function (e) {
+                $.ajax({
+                    url: "@Url.Action("Export", "Template")",
+                    data:
+                    {
+                        TemplateID : 1,
+                        Description: $("#summernote").html()
+                    },
+                    dataType: "text",
+
+                    success: function (data) {
+                        $('#ProjectGrid').html(data);
+                    },
+                    error: function (error) {
+                        eval(error);
+                    }
+                });
+            });
+         });
+    </script>*@

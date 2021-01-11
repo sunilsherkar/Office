@@ -1,0 +1,131 @@
+﻿
+@model office.Models.BussinessSubCategory 
+@using PagedList;
+@using PagedList.Mvc;
+@using GridMvc.Html 
+@{
+    ViewBag.Title = "";
+} 
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "", @id = "frmCandidate" }))
+{
+    <div class="row">
+        <div class="col-lg-12"> 
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5> Sub Category </h5>
+                    <div class="ibox-tools">
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label>Category Name</label>
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.DropDownList("BusinessCategoryID", new SelectList((System.Collections.IEnumerable)ViewData["BusinessCategoryList"], "Value", "Text"), "Select Category", new { @class = "form-control", @id = "BusinessCategoryID2", Title = "BusinessCategoryID" })
+                                    <p id="Categoryvalidation2" style="color:red;display:none">Please select Category</p>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label>Sub Category Name</label>
+                                </div> 
+                                <div class="col-md-3">
+                                    @Html.HiddenFor(a => a.BusinessSubCategoryID, new { @id = "BussinessSubCategoryID2" })
+                                    @Html.TextBoxFor(a => a.BusinessSubCategoryName, new { @class = "form-control", title = "BusinessSubCategoryName", @id = "BusinessSubCategoryName2" })
+                                    <p id="Namevalidation2" style="color:red;display:none">Please Enter Name</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="" style="margin-left: 0!important">
+                                        @Html.CheckBoxFor(a => a.IsActive, new { @class = "", title = "Active", id = "IsActive2" , name= "IsActive2" })
+                                        <label for="checkbox5">
+                                            Active
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top: 10px;">
+                        <div class="col-md-3">
+                            <label> </label>
+                        </div>
+                        
+                    </div> 
+                    <div class="row">
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="">
+                                <button class="btn btn-white" id="btnClear2" type="button">Clear</button> 
+                                <button class="btn btn-primary" id="btnsave2" type="button">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/js/jquery-2.1.1.js"></script>
+}
+<script>
+
+    $(document).ready(function () {
+        $("#Namevalidation2").hide();
+        $('#btnClear2').on('click', function () {
+            $('#BusinessCategoryID2').val(0);
+            $('#BusinessSubCategoryName2').val('');
+            $("#BussinessSubCategoryID2").val(0);
+        });
+        $('#btnsave2').on('click', function () {
+            $("#Categoryvalidation2").hide();
+            $("#Namevalidation2").hide();
+            if ($("#BusinessCategoryID2").val() == "") {
+                $("#Categoryvalidation2").show();
+                return false;
+            }
+            else if ($("#BusinessSubCategoryName2").val() == "") {
+                $("#Namevalidation2").show();
+                return false;
+            }
+            else {
+
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    url: '/Master/SaveBussinessSubCategory',
+                    data:
+                    {
+                        BussinessCategoryID: $("#BusinessCategoryID2").val(),
+                        BussinessSubCategoryID: $("#BussinessSubCategoryID2").val(),
+                        BussinessSubCategoryName: $("#BusinessSubCategoryName2").val(),
+                        IsActive: $('input[name=IsActive2]').prop('checked')
+                    },
+                    success: function (da) {
+                        $('#BusinessCategoryID2').val(0);
+                        $('#BusinessSubCategoryName2').val('');
+                        $("#BussinessSubCategoryID2").val(0);
+                        $.ajax({
+                            url: "@Url.Action("LoadBussinessSubCategoryGrid", "Master")",
+                            contentType: "application/json",
+                            dataType: "text",
+                            type: "Get",
+                            async: true,
+                            success: function (data) {
+                                $('#mgrid2').html(data);
+
+                            },
+                            error: function (data) {
+                            },
+                            complete: function () {
+                            }
+                        });
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    }
+                });
+            }
+        });
+    });
+</script> 

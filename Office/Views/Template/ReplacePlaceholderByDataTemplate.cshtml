@@ -1,0 +1,45 @@
+﻿@model office.Models.ProjectsDataWithValue
+@{
+    Layout = null;
+}
+<div class="wrapper">
+    <div class="gray-bg">
+      
+
+             
+                @try
+                {
+                    if (Model != null)
+                    {
+                     <a href="DownloadFile?path=@Model.FilePath" class="pull-right">Download<i class="fa fa-download text-navy"></i></a>
+                    }
+                }
+                catch { } 
+            </div>
+            
+    
+</div>
+<link href="~/css/style.css" rel="stylesheet" />
+<script src="~/js/jquery-2.1.1.js"></script>
+   <script>
+        $(document).ready(function () {
+        $('#Print').on("click", function (e) { 
+            $.ajax({
+                url: "@Url.Action("Export", "Template")",
+                data:
+                {
+                    TemplateID : 1,
+                    Description: $("#summernote").html()
+                },
+                dataType: "text",
+
+                success: function (data) {
+                    $('#ProjectGrid').html(data); 
+                },
+                error: function (error) { 
+                    eval(error);
+                }
+            }); 
+        });
+     }); 
+</script> 
